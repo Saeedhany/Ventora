@@ -150,6 +150,11 @@ public class CompanyServiceImpl implements ICompanyService {
             company.setPrimaryBusinessModel(
                     request.primaryBusinessModel()
             );
+
+        }
+
+        if (request.organizationModel() != null) {
+            company.setOrganizationModel(request.organizationModel());
         }
     }
 
@@ -172,7 +177,8 @@ public class CompanyServiceImpl implements ICompanyService {
                 company.getPrimaryBusinessModel(),
                 company.getProfileStatus(),
                 company.getCreatedAt(),
-                company.getUpdatedAt()
+                company.getUpdatedAt(),
+                company.getOrganizationModel()
         );
     }
 }

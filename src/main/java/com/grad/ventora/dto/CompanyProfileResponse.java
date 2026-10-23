@@ -2,6 +2,8 @@
 package com.grad.ventora.dto;
 
 import com.grad.ventora.entity.CompanyProfileStatus;
+import com.grad.ventora.entity.OrganizationModel;
+
 import java.time.LocalDateTime;
 
 public record CompanyProfileResponse(
@@ -22,6 +24,7 @@ public record CompanyProfileResponse(
         String primaryBusinessModel,
         CompanyProfileStatus profileStatus,
         LocalDateTime createdAt,
-        LocalDateTime updatedAt
+        LocalDateTime updatedAt,
+        OrganizationModel organizationModel
 ) {
 }

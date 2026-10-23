@@ -81,4 +81,8 @@ public class Company {
     protected void onUpdate() {
         updatedAt = LocalDateTime.now();
     }
+
+    @Enumerated(EnumType.STRING)
+    @Column(length = 40)
+    private OrganizationModel organizationModel;
 }

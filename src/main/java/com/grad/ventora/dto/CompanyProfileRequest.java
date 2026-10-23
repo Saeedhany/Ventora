@@ -1,6 +1,7 @@
 
 package com.grad.ventora.dto;
 
+import com.grad.ventora.entity.OrganizationModel;
 import jakarta.validation.constraints.Max;
 import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.Pattern;
@@ -53,7 +54,10 @@ public record CompanyProfileRequest(
         String mainBusinessDomain,
 
         @Size(max = 150)
-        String primaryBusinessModel
+        String primaryBusinessModel,
+
+        OrganizationModel organizationModel
+
 
 ) {
 }
