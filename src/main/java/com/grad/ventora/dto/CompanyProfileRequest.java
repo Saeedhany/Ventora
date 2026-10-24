@@ -56,7 +56,18 @@ public record CompanyProfileRequest(
         @Size(max = 150)
         String primaryBusinessModel,
 
-        OrganizationModel organizationModel
+        OrganizationModel organizationModel,
+
+
+        @Size(max = 500)
+        String linkedInUrl,
+
+        @Size(max = 500)
+        String twitterUrl,
+
+        @Size(max = 500)
+        String youTubeUrl
+
 
 
 ) {

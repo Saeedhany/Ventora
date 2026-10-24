@@ -156,6 +156,12 @@ public class CompanyServiceImpl implements ICompanyService {
         if (request.organizationModel() != null) {
             company.setOrganizationModel(request.organizationModel());
         }
+
+
+        company.setLinkedInUrl(request.linkedInUrl());
+        company.setTwitterUrl(request.twitterUrl());
+        company.setYouTubeUrl(request.youTubeUrl());
+
     }
 
     private CompanyProfileResponse toResponse(Company company) {
@@ -178,7 +184,12 @@ public class CompanyServiceImpl implements ICompanyService {
                 company.getProfileStatus(),
                 company.getCreatedAt(),
                 company.getUpdatedAt(),
-                company.getOrganizationModel()
+                company.getOrganizationModel(),
+                company.getLinkedInUrl(),
+                company.getTwitterUrl(),
+                company.getYouTubeUrl()
+
+
         );
     }
 }

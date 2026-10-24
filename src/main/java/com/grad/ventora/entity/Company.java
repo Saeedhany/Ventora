@@ -85,4 +85,15 @@ public class Company {
     @Enumerated(EnumType.STRING)
     @Column(length = 40)
     private OrganizationModel organizationModel;
+
+
+    @Column(length = 500)
+    private String linkedInUrl;
+
+    @Column(length = 500)
+    private String twitterUrl;
+
+    @Column(length = 500)
+    private String youTubeUrl;
+
 }

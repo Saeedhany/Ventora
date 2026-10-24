@@ -25,6 +25,10 @@ public record CompanyProfileResponse(
         CompanyProfileStatus profileStatus,
         LocalDateTime createdAt,
         LocalDateTime updatedAt,
-        OrganizationModel organizationModel
+        OrganizationModel organizationModel,
+        String linkedInUrl,
+        String twitterUrl,
+        String youTubeUrl
+
 ) {
 }
