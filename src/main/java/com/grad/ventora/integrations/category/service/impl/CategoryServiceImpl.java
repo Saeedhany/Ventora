@@ -1,0 +1,14 @@
+package com.grad.ventora.integrations.category.service.impl;
+import com.grad.ventora.exception.exceptions.ResourceNotFoundException; import com.grad.ventora.integrations.category.dto.*; import com.grad.ventora.integrations.category.entity.IntegrationCategory; import com.grad.ventora.integrations.category.repository.IntegrationCategoryRepository; import com.grad.ventora.integrations.category.service.ICategoryService; import lombok.RequiredArgsConstructor; import org.springframework.stereotype.Service; import org.springframework.transaction.annotation.Transactional; import java.util.*;
+@Service @RequiredArgsConstructor @Transactional
+public class CategoryServiceImpl implements ICategoryService {
+ private final IntegrationCategoryRepository repository;
+ @Override @Transactional(readOnly=true) public List<CategoryResponse> getPublic(){return repository.findByActiveTrueOrderByDisplayOrderAscIdAsc().stream().map(this::toResponse).toList();}
+ @Override @Transactional(readOnly=true) public List<CategoryResponse> getAdmin(){return repository.findAllByOrderByDisplayOrderAscIdAsc().stream().map(this::toResponse).toList();}
+ @Override public CategoryResponse create(CategoryRequest r){validate(r,null);IntegrationCategory c=new IntegrationCategory();apply(c,r);return toResponse(repository.save(c));}
+ @Override public CategoryResponse update(Long id,CategoryRequest r){IntegrationCategory c=repository.findById(id).orElseThrow(()->new ResourceNotFoundException("Category not found: "+id));validate(r,id);apply(c,r);return toResponse(repository.save(c));}
+ @Override public void delete(Long id){IntegrationCategory c=repository.findById(id).orElseThrow(()->new ResourceNotFoundException("Category not found: "+id));c.getIntegrations().forEach(i->i.getCategories().remove(c));c.getIntegrations().clear();repository.delete(c);}
+ private void validate(CategoryRequest r,Long id){boolean n=id==null?repository.existsByNameIgnoreCase(r.name().trim()):repository.existsByNameIgnoreCaseAndIdNot(r.name().trim(),id);boolean s=id==null?repository.existsBySlug(r.slug()):repository.existsBySlugAndIdNot(r.slug(),id);if(n)throw new IllegalArgumentException("A category with this name already exists");if(s)throw new IllegalArgumentException("A category with this slug already exists");}
+ private void apply(IntegrationCategory c,CategoryRequest r){c.setName(r.name().trim());c.setSlug(r.slug());c.setDescription(r.description());c.setIconUrl(r.iconUrl());c.setDisplayOrder(r.displayOrder()==null?0:r.displayOrder());c.setActive(r.active()==null||r.active());}
+ private CategoryResponse toResponse(IntegrationCategory c){var integrations=c.getIntegrations().stream().filter(i->i.isActive()).map(i->new CategoryResponse.IntegrationSummary(i.getId(),i.getName(),i.getSlug(),i.getLogoUrl())).toList();return new CategoryResponse(c.getId(),c.getName(),c.getSlug(),c.getDescription(),c.getIconUrl(),c.getDisplayOrder(),c.isActive(),integrations);}
+}

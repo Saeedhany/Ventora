@@ -46,6 +46,7 @@ public class Feature {
     @OrderBy("displayOrder ASC, id ASC")
     private List<FeatureSection> sections = new ArrayList<>();
 
+
     public void addPoint(FeaturePoint point) {
         points.add(point);
         point.setFeature(this);

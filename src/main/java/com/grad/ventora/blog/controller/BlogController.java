@@ -1,0 +1,15 @@
+package com.grad.ventora.blog.controller;
+import com.grad.ventora.blog.service.BlogService; import com.grad.ventora.blog.dto.*; import lombok.RequiredArgsConstructor; import org.springframework.web.bind.annotation.*; import org.springframework.http.HttpStatus; import org.springframework.data.domain.Page; import jakarta.validation.Valid; import java.util.*;
+@RestController @RequestMapping("/blog") @RequiredArgsConstructor
+public class BlogController { private final BlogService service;
+ @GetMapping("/posts") public Page<BlogPostSummaryResponse> list(@RequestParam(required=false) String search,@RequestParam(required=false) String category,@RequestParam(defaultValue="latest") String sort,@RequestParam(defaultValue="0") int page,@RequestParam(defaultValue="6") int size){return service.list(search,category,sort,page,size);}
+ @GetMapping("/posts/popular") public List<BlogPostSummaryResponse> popular(){return service.popular();} @GetMapping("/posts/{slug}") public BlogPostResponse get(@PathVariable String slug){return service.get(slug);}
+ @GetMapping("/posts/admin") public Page<BlogPostResponse> admin(@RequestParam(defaultValue="0") int page,@RequestParam(defaultValue="10") int size){return service.adminList(page,size);}
+ @PostMapping("/posts/admin") @ResponseStatus(HttpStatus.CREATED) public BlogPostResponse create(@Valid @RequestBody BlogPostRequest r){return service.create(r);}
+ @PutMapping("/posts/{id}/admin") public BlogPostResponse update(@PathVariable Long id,@Valid @RequestBody BlogPostRequest r){return service.update(id,r);}
+ @PatchMapping("/posts/{id}/publish/admin") public BlogPostResponse publish(@PathVariable Long id){return service.publish(id);} @PatchMapping("/posts/{id}/unpublish/admin") public BlogPostResponse unpublish(@PathVariable Long id){return service.unpublish(id);}
+ @DeleteMapping("/posts/{id}/admin") @ResponseStatus(HttpStatus.NO_CONTENT) public void delete(@PathVariable Long id){service.delete(id);}
+ @GetMapping("/categories") public List<BlogCategoryResponse> categories(){return service.categories(false);} @GetMapping("/categories/admin") public List<BlogCategoryResponse> adminCategories(){return service.categories(true);}
+ @PostMapping("/categories/admin") @ResponseStatus(HttpStatus.CREATED) public BlogCategoryResponse createCategory(@Valid @RequestBody BlogCategoryRequest r){return service.saveCategory(null,r);} @PutMapping("/categories/{id}/admin") public BlogCategoryResponse updateCategory(@PathVariable Long id,@Valid @RequestBody BlogCategoryRequest r){return service.saveCategory(id,r);} @DeleteMapping("/categories/{id}/admin") @ResponseStatus(HttpStatus.NO_CONTENT) public void deleteCategory(@PathVariable Long id){service.deleteCategory(id);}
+ @GetMapping("/page-content") public BlogPageContentResponse pageContent(){return service.pageContent();} @GetMapping("/page-content/admin") public BlogPageContentResponse adminPageContent(){return service.adminPageContent();} @PutMapping("/page-content/admin") public BlogPageContentResponse savePageContent(@RequestBody BlogPageContentRequest r){return service.savePageContent(r);}
+}
