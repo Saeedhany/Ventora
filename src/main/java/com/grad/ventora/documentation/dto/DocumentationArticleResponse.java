@@ -1,0 +1,3 @@
+package com.grad.ventora.documentation.dto;
+import com.grad.ventora.documentation.entity.DocumentationArticleStatus; import java.time.LocalDateTime; import java.util.List;
+public record DocumentationArticleResponse(Long id,String title,String slug,String description,Long categoryId,String categoryName,String categorySlug,Long versionId,String versionName,String versionSlug,Integer displayOrder,DocumentationArticleStatus status,LocalDateTime publishedAt,List<DocumentationBlockResponse> contentBlocks,List<DocumentationTocItem> tableOfContents,List<DocumentationArticleSummary> relatedArticles,DocumentationArticleSummary previousArticle,DocumentationArticleSummary nextArticle,LocalDateTime createdAt,LocalDateTime updatedAt) {}
